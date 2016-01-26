@@ -234,5 +234,5 @@ function setupCamera(): void {
     camera.position.y = 25;
     camera.position.z = 20;
     camera.lookAt(new Vector3(5, 0, 0));
-    console.log("Finished setting up Camera...");
+    console.log("Finished setting up Camera..!");
 }
