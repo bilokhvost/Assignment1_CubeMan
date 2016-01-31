@@ -34,7 +34,15 @@ var scene: Scene;
 var renderer: Renderer;
 var camera: PerspectiveCamera;
 var axes: AxisHelper;
-var cube: Mesh;
+var legOne: Mesh;
+var legTwo: Mesh;
+var neck: Mesh;
+var body: Mesh;
+var head: Mesh;
+var handOne: Mesh;
+var handTwo: Mesh;
+var feetOne: Mesh;
+var feetTwo: Mesh;
 var plane: Mesh;
 var sphere: Mesh;
 var ambientLight: AmbientLight;
@@ -43,11 +51,23 @@ var control: Control;
 var gui: GUI;
 var stats: Stats;
 var step: number = 0;
-var vertices: Vector3[] = new Array<Vector3>();
-var faces: Face3[] = new Array<Face3>();
-var customGeometry: Geometry;
-var customMaterials: Material[] = new Array<Material>();
-var customMesh: Object3D;
+var legGeo: CubeGeometry;
+var legMat:LambertMaterial;
+
+var feetGeo: CubeGeometry;
+var feetMat:LambertMaterial;
+
+var bodyGeo: CubeGeometry;
+var bodyMat:LambertMaterial;
+
+var neckGeo: CubeGeometry;
+var neckMat:LambertMaterial;
+
+var headGeo: CubeGeometry;
+var headMat:LambertMaterial;
+
+var handGeo: CubeGeometry;
+var handMat:LambertMaterial;
 
 function init() {
     // Instantiate a new Scene object
@@ -58,21 +78,106 @@ function init() {
     setupCamera(); // setup the camera
 	
     // add an axis helper to the scene
-    axes = new AxisHelper(20);
+    axes = new AxisHelper(10);
     scene.add(axes);
     console.log("Added Axis Helper to scene...");
     
     //Add a Plane to the Scene
     plane = new gameObject(
-        new PlaneGeometry(60, 40, 1, 1),
-        new LambertMaterial({ color: 0xffffff }),
+        new PlaneGeometry(16, 16, 1, 1),
+        new LambertMaterial({ color: 0xe79b61 }),
         0, 0, 0);
 
     plane.rotation.x = -0.5 * Math.PI;
 
     scene.add(plane);
     console.log("Added Plane Primitive to scene...");
-     
+    
+    //add legs to the scene
+    legMat = new LambertMaterial ({color:0x00ff00});
+    legGeo=new CubeGeometry(0.5,2,0.5);
+    legOne=new Mesh(legGeo, legMat);
+    legOne.castShadow=true;
+    legOne.receiveShadow=true;
+    legOne.position.y=1;
+    scene.add(legOne);
+    legTwo=new Mesh(legGeo, legMat);
+    legTwo.castShadow=true;
+    legTwo.receiveShadow=true;
+    legTwo.position.y=1;
+    legTwo.position.x=-0.75;
+    scene.add(legTwo);
+    console.log("Added legs");
+    
+    //add feets
+     feetMat = new LambertMaterial ({color:0x00ff00});
+    feetGeo=new CubeGeometry(0.25, 0.25, 0.25);
+    feetOne=new Mesh(feetGeo, feetMat);
+    feetOne.castShadow=true;
+    feetOne.receiveShadow=true;
+    feetOne.position.x=0.35;
+    feetOne.position.y=0.15;
+    feetOne.position.z=-0.15;
+    scene.add(feetOne);
+    feetTwo=new Mesh(feetGeo, feetMat);
+    feetTwo.castShadow=true;
+    feetTwo.receiveShadow=true;
+    feetTwo.position.x=-1;
+    feetTwo.position.y=0.15;
+    feetTwo.position.z=-0.15;
+   scene.add(feetTwo);
+    console.log("Added feets");
+    
+    //add body
+     bodyMat = new LambertMaterial ({color:0x00ff00});
+    bodyGeo=new CubeGeometry(1.2,3,1.8);
+    body=new Mesh(bodyGeo, bodyMat);
+    //body.castShadow=true;
+    //body.receiveShadow=true;
+    body.position.x=-0.25;
+    body.position.y=3.3;
+   body.position.z=-0.58;
+    scene.add(body);
+    
+    //add neck
+         neckMat = new LambertMaterial ({color:0x00ff00});
+    neckGeo=new CubeGeometry(0.5,0.7,0.5);
+    neck=new Mesh(neckGeo, neckMat);
+    //neck.castShadow=true;
+    //neck.receiveShadow=true;
+    neck.position.x=-0.3;
+    neck.position.y=5;
+   neck.position.z=-0.58;
+    scene.add(neck);
+    
+    //add head
+    headMat = new LambertMaterial ({color:0x00ff00});
+    headGeo=new CubeGeometry(1,1, 1);
+    head=new Mesh(headGeo, headMat);
+    //head.castShadow=true;
+    //head.receiveShadow=true;
+    head.position.x=-0.3;
+    head.position.y=5.7;
+   head.position.z=-0.58;
+      scene.add(head);
+    //add arms
+      handMat = new LambertMaterial ({color:0x00ff00});
+    handGeo=new CubeGeometry(2.5, 0.5, 0.5);
+    handOne=new Mesh( handGeo,  handMat);
+    handOne.castShadow=true;
+    handOne.receiveShadow=true;
+    handOne.position.x=1.3;
+    handOne.position.y=3.4;
+    handOne.position.z=2;
+    scene.add(handOne);
+    handTwo=new Mesh(handGeo,  handMat);
+    handTwo.castShadow=true;
+    handTwo.receiveShadow=true;
+    handTwo.position.x=-2;
+    handTwo.position.y=3.4;
+    handTwo.position.z=2;
+   scene.add(handTwo);
+    console.log("Added arems");
     
     // Add an AmbientLight to the scene
     ambientLight = new AmbientLight(0x090909);
@@ -86,14 +191,13 @@ function init() {
     scene.add(spotLight);
     console.log("Added a SpotLight Light to Scene");
     
-    // Call the Custom Mesh function
-    initializeCustomMesh();
     
+ 
     
     // add controls
     gui = new GUI();
-    control = new Control(customMesh);
-    addControlPoints();
+    control = new Control();
+  
     addControl(control);
 
     // Add framerate stats
@@ -106,69 +210,6 @@ function init() {
     window.addEventListener('resize', onResize, false);
 }
 
-function initializeCustomMesh(): void {
-    vertices = [
-        new THREE.Vector3(1, 3, 1),
-        new THREE.Vector3(1, 3, -1),
-        new THREE.Vector3(1, -1, 1),
-        new THREE.Vector3(1, -1, -1),
-        new THREE.Vector3(-1, 3, -1),
-        new THREE.Vector3(-1, 3, 1),
-        new THREE.Vector3(-1, -1, -1),
-        new THREE.Vector3(-1, -1, 1)
-    ];
-
-    faces = [
-        new THREE.Face3(0, 2, 1),
-        new THREE.Face3(2, 3, 1),
-        new THREE.Face3(4, 6, 5),
-        new THREE.Face3(6, 7, 5),
-        new THREE.Face3(4, 5, 1),
-        new THREE.Face3(5, 0, 1),
-        new THREE.Face3(7, 6, 2),
-        new THREE.Face3(6, 3, 2),
-        new THREE.Face3(5, 7, 0),
-        new THREE.Face3(7, 2, 0),
-        new THREE.Face3(1, 3, 4),
-        new THREE.Face3(3, 6, 4),
-    ];
-
-    createCustomMesh();
-
-    console.log("Added Custom Mesh to Scene");
-}
-
-function addControlPoints(): void {
-    control.points.push(new Point(3, 5, 3));
-    control.points.push(new Point(3, 5, 0));
-    control.points.push(new Point(3, 0, 3));
-    control.points.push(new Point(3, 0, 0));
-    control.points.push(new Point(0, 5, 0));
-    control.points.push(new Point(0, 5, 3));
-    control.points.push(new Point(0, 0, 0));
-    control.points.push(new Point(0, 0, 3));
-}
-
-function createCustomMesh() {
-    customGeometry = new Geometry();
-    customGeometry.vertices = vertices;
-    customGeometry.faces = faces;
-    customGeometry.mergeVertices();
-    customGeometry.computeFaceNormals();
-
-    customMaterials = [
-        new LambertMaterial({ opacity: 0.6, color: 0x44ff44, transparent: true }),
-        new MeshBasicMaterial({ color: 0x000000, wireframe: true })
-    ];
-
-    customMesh = THREE.SceneUtils.createMultiMaterialObject(customGeometry, customMaterials);
-    customMesh.children.forEach((child) => {
-        child.castShadow = true;
-    });
-    customMesh.name = "customMesh";
-    scene.add(customMesh);
-}
-
 function onResize(): void {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
@@ -176,14 +217,8 @@ function onResize(): void {
 }
 
 function addControl(controlObject: Control): void {
-    gui.add(controlObject, 'clone');
-    for (var index = 0; index < 8; index++) {
-        var folder: GUI;
-        folder = gui.addFolder('Vertices ' + (index + 1));
-        folder.add(controlObject.points[index], 'x', -10, 10);
-        folder.add(controlObject.points[index], 'y', -10, 10);
-        folder.add(controlObject.points[index], 'z', -10, 10);
-    }
+   // gui.add(controlObject, 'clone');
+   
 }
 
 function addStatsObject() {
@@ -198,18 +233,6 @@ function addStatsObject() {
 // Setup main game loop
 function gameLoop(): void {
     stats.update();
-
-    vertices = new Array<Vector3>();
-    for (var index = 0; index < 8; index++) {
-        vertices.push(new Vector3(
-            control.points[index].x,
-            control.points[index].y,
-            control.points[index].z));
-    }
-
-    // remove our customMesh from the scene and add it every frame 
-    scene.remove(scene.getObjectByName("customMesh"));
-    createCustomMesh();
 
     // render using requestAnimationFrame
     requestAnimationFrame(gameLoop);
@@ -230,9 +253,9 @@ function setupRenderer(): void {
 // Setup main camera for the scene
 function setupCamera(): void {
     camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.x = -20;
-    camera.position.y = 25;
-    camera.position.z = 20;
-    camera.lookAt(new Vector3(5, 0, 0));
+ camera.position.x = 0.6;
+    camera.position.y = 8;
+    camera.position.z = -10.5;
+    camera.lookAt(new Vector3(0, 0, 0));
     console.log("Finished setting up Camera..!");
 }
