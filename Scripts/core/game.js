@@ -74,84 +74,42 @@ function init() {
     scene.add(plane);
     console.log("Added Plane Primitive to scene...");
     //add legs to the scene
-    legMat = new LambertMaterial({ color: 0x00ff00 });
+    legMat = new LambertMaterial({ color: 0xCCCC99 });
     legGeo = new CubeGeometry(0.5, 2, 0.5);
-    legOne = new Mesh(legGeo, legMat);
-    legOne.castShadow = true;
-    legOne.receiveShadow = true;
-    legOne.position.y = 1;
+    legOne = new gameObject(legGeo, legMat, 0, 1, 0);
     scene.add(legOne);
-    legTwo = new Mesh(legGeo, legMat);
-    legTwo.castShadow = true;
-    legTwo.receiveShadow = true;
-    legTwo.position.y = 1;
-    legTwo.position.x = -0.75;
+    legTwo = new gameObject(legGeo, legMat, -0.75, 1, 0);
     scene.add(legTwo);
     console.log("Added legs");
     //add feets
-    feetMat = new LambertMaterial({ color: 0x00ff00 });
+    feetMat = new LambertMaterial({ color: 0x003333 });
     feetGeo = new CubeGeometry(0.25, 0.25, 0.25);
-    feetOne = new Mesh(feetGeo, feetMat);
-    feetOne.castShadow = true;
-    feetOne.receiveShadow = true;
-    feetOne.position.x = 0.35;
-    feetOne.position.y = 0.15;
-    feetOne.position.z = -0.15;
+    feetOne = new gameObject(feetGeo, feetMat, 0.35, 0.15, -0.15);
     scene.add(feetOne);
-    feetTwo = new Mesh(feetGeo, feetMat);
-    feetTwo.castShadow = true;
-    feetTwo.receiveShadow = true;
-    feetTwo.position.x = -1;
-    feetTwo.position.y = 0.15;
-    feetTwo.position.z = -0.15;
+    feetTwo = new gameObject(feetGeo, feetMat, -1, 0.15, -0.15);
     scene.add(feetTwo);
     console.log("Added feets");
     //add body
-    bodyMat = new LambertMaterial({ color: 0x00ff00 });
+    bodyMat = new LambertMaterial({ color: 0x9999FF });
     bodyGeo = new CubeGeometry(1.2, 3, 1.8);
-    body = new Mesh(bodyGeo, bodyMat);
-    //body.castShadow=true;
-    //body.receiveShadow=true;
-    body.position.x = -0.25;
-    body.position.y = 3.3;
-    body.position.z = -0.58;
+    body = new gameObject(bodyGeo, bodyMat, -0.3, 3.7, -0.58);
     scene.add(body);
     //add neck
-    neckMat = new LambertMaterial({ color: 0x00ff00 });
-    neckGeo = new CubeGeometry(0.5, 0.7, 0.5);
-    neck = new Mesh(neckGeo, neckMat);
-    //neck.castShadow=true;
-    //neck.receiveShadow=true;
-    neck.position.x = -0.3;
-    neck.position.y = 5;
-    neck.position.z = -0.58;
+    neckMat = new LambertMaterial({ color: 0xCCCCCC });
+    neckGeo = new CubeGeometry(0.3, 0.7, 0.3);
+    neck = new gameObject(neckGeo, neckMat, -0.3, 5.3, -0.58);
     scene.add(neck);
     //add head
-    headMat = new LambertMaterial({ color: 0x00ff00 });
+    headMat = new LambertMaterial({ color: 0xFFFFCC });
     headGeo = new CubeGeometry(1, 1, 1);
-    head = new Mesh(headGeo, headMat);
-    //head.castShadow=true;
-    //head.receiveShadow=true;
-    head.position.x = -0.3;
-    head.position.y = 5.7;
-    head.position.z = -0.58;
+    head = new gameObject(headGeo, headMat, -0.3, 6, -0.58);
     scene.add(head);
     //add arms
-    handMat = new LambertMaterial({ color: 0x00ff00 });
+    handMat = new LambertMaterial({ color: 0x9966CC });
     handGeo = new CubeGeometry(2.5, 0.5, 0.5);
-    handOne = new Mesh(handGeo, handMat);
-    handOne.castShadow = true;
-    handOne.receiveShadow = true;
-    handOne.position.x = 1.3;
-    handOne.position.y = 3.4;
-    handOne.position.z = 2;
+    handOne = new gameObject(handGeo, handMat, 1.3, 4.1, 1);
     scene.add(handOne);
-    handTwo = new Mesh(handGeo, handMat);
-    handTwo.castShadow = true;
-    handTwo.receiveShadow = true;
-    handTwo.position.x = -2;
-    handTwo.position.y = 3.4;
-    handTwo.position.z = 2;
+    handTwo = new gameObject(handGeo, handMat, -2, 4.1, 1);
     scene.add(handTwo);
     console.log("Added arems");
     // Add an AmbientLight to the scene
@@ -160,7 +118,8 @@ function init() {
     console.log("Added an Ambient Light to Scene");
     // Add a SpotLight to the scene
     spotLight = new SpotLight(0xffffff);
-    spotLight.position.set(-40, 60, 10);
+    spotLight.position.set(5.6, 23.1, 5.4);
+    spotLight.rotation.set(-0.8, 42.7, 19.5);
     spotLight.castShadow = true;
     scene.add(spotLight);
     console.log("Added a SpotLight Light to Scene");
@@ -211,8 +170,8 @@ function setupRenderer() {
 function setupCamera() {
     camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.x = 0.6;
-    camera.position.y = 8;
-    camera.position.z = -10.5;
+    camera.position.y = 16;
+    camera.position.z = -20.5;
     camera.lookAt(new Vector3(0, 0, 0));
     console.log("Finished setting up Camera..!");
 }
