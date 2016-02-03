@@ -39,6 +39,7 @@ var handOne;
 var handTwo;
 var feetOne;
 var feetTwo;
+var cubMan;
 var plane;
 var sphere;
 var ambientLight;
@@ -73,47 +74,47 @@ function init() {
     plane.rotation.x = -0.5 * Math.PI;
     scene.add(plane);
     console.log("Added Plane Primitive to scene...");
+    //add body
+    bodyMat = new LambertMaterial({ color: 0x9999FF });
+    bodyGeo = new CubeGeometry(1.2, 3, 1.8);
+    body = new gameObject(bodyGeo, bodyMat, 0, 5, 0);
+    scene.add(body);
     //add legs to the scene
     legMat = new LambertMaterial({ color: 0xCCCC99 });
     legGeo = new CubeGeometry(0.5, 2, 0.5);
-    legOne = new gameObject(legGeo, legMat, 0, 1, 0);
-    scene.add(legOne);
-    legTwo = new gameObject(legGeo, legMat, -0.75, 1, 0);
-    scene.add(legTwo);
+    legOne = new gameObject(legGeo, legMat, -0.35, -2.5, 0.2);
+    body.add(legOne);
+    legTwo = new gameObject(legGeo, legMat, 0.3, -2.5, 0.2);
+    body.add(legTwo);
     console.log("Added legs");
     //add feets
     feetMat = new LambertMaterial({ color: 0x003333 });
     feetGeo = new CubeGeometry(0.25, 0.25, 0.25);
-    feetOne = new gameObject(feetGeo, feetMat, 0.35, 0.15, -0.15);
-    scene.add(feetOne);
-    feetTwo = new gameObject(feetGeo, feetMat, -1, 0.15, -0.15);
-    scene.add(feetTwo);
+    feetOne = new gameObject(feetGeo, feetMat, -0.7, -3.3, 0.25);
+    body.add(feetOne);
+    feetTwo = new gameObject(feetGeo, feetMat, 0.69, -3.3, 0.25);
+    body.add(feetTwo);
     console.log("Added feets");
-    //add body
-    bodyMat = new LambertMaterial({ color: 0x9999FF });
-    bodyGeo = new CubeGeometry(1.2, 3, 1.8);
-    body = new gameObject(bodyGeo, bodyMat, -0.3, 3.7, -0.58);
-    scene.add(body);
     //add neck
     neckMat = new LambertMaterial({ color: 0xCCCCCC });
     neckGeo = new CubeGeometry(0.3, 0.7, 0.3);
-    neck = new gameObject(neckGeo, neckMat, -0.3, 5.3, -0.58);
-    scene.add(neck);
+    neck = new gameObject(neckGeo, neckMat, 0, 1.7, 0);
+    body.add(neck);
     //add head
     headMat = new LambertMaterial({ color: 0xFFFFCC });
     headGeo = new CubeGeometry(1, 1, 1);
-    head = new gameObject(headGeo, headMat, -0.3, 6, -0.58);
-    scene.add(head);
+    head = new gameObject(headGeo, headMat, 0, 2.3, 0);
+    body.add(head);
     //add arms
     handMat = new LambertMaterial({ color: 0x9966CC });
     handGeo = new CubeGeometry(2.5, 0.5, 0.5);
-    handOne = new gameObject(handGeo, handMat, 1.3, 4.1, 1);
-    scene.add(handOne);
-    handTwo = new gameObject(handGeo, handMat, -2, 4.1, 1);
-    scene.add(handTwo);
+    handOne = new gameObject(handGeo, handMat, 1.5, 0.75, 0.1);
+    body.add(handOne);
+    handTwo = new gameObject(handGeo, handMat, -1.5, 0.75, 0.1);
+    body.add(handTwo);
     console.log("Added arems");
     // Add an AmbientLight to the scene
-    ambientLight = new AmbientLight(0x090909);
+    ambientLight = new AmbientLight(0x292929);
     scene.add(ambientLight);
     console.log("Added an Ambient Light to Scene");
     // Add a SpotLight to the scene
@@ -125,7 +126,7 @@ function init() {
     console.log("Added a SpotLight Light to Scene");
     // add controls
     gui = new GUI();
-    control = new Control();
+    control = new Control(0, 0, 0);
     addControl(control);
     // Add framerate stats
     addStatsObject();
@@ -140,7 +141,9 @@ function onResize() {
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
 function addControl(controlObject) {
-    // gui.add(controlObject, 'clone');
+    gui.add(controlObject, 'rotationSpeedX', -0.5, 0.5);
+    gui.add(controlObject, 'rotationSpeedY', -0.5, 0.5);
+    gui.add(controlObject, 'rotationSpeedZ', -0.5, 0.5);
 }
 function addStatsObject() {
     stats = new Stats();
@@ -153,6 +156,9 @@ function addStatsObject() {
 // Setup main game loop
 function gameLoop() {
     stats.update();
+    body.rotation.x += control.rotationSpeedX;
+    body.rotation.y += control.rotationSpeedY;
+    body.rotation.z += control.rotationSpeedZ;
     // render using requestAnimationFrame
     requestAnimationFrame(gameLoop);
     // render the scene
