@@ -93,11 +93,11 @@ function init() {
     
     //add body
     bodyMat = new LambertMaterial ({color:0x9999FF});
-    bodyGeo=new CubeGeometry(1.2,3,1.8);
-    body=new gameObject(bodyGeo, bodyMat, 0, 5, 0);
+    bodyGeo=new CubeGeometry(1.2,3,1.5);
+    body=new gameObject(bodyGeo, bodyMat, 0, 3.5, 0);
     scene.add(body);
     
-    //add legs to the scene
+    //add legs to the body
     legMat = new LambertMaterial ({color:0xCCCC99});
     legGeo=new CubeGeometry(0.5,2,0.5);
     legOne = new gameObject (legGeo, legMat, -0.35, -2.5, 0.2);
@@ -106,35 +106,34 @@ function init() {
     body.add(legTwo);
     console.log("Added legs");
     
-    //add feets
+    //add feets to the body
     feetMat = new LambertMaterial ({color:0x003333});
-    feetGeo=new CubeGeometry(0.25, 0.25, 0.25);
-    feetOne=new gameObject (feetGeo, feetMat, -0.7, -3.3, 0.25);
+    feetGeo=new CubeGeometry(0.4, 0.4, 0.4);
+    feetOne=new gameObject (feetGeo, feetMat, -0.7, -3.3, 0.2);
     body.add(feetOne);
-    feetTwo=new gameObject(feetGeo, feetMat, 0.69, -3.3, 0.25);
+    feetTwo=new gameObject(feetGeo, feetMat, 0.69, -3.3, 0.2);
     body.add(feetTwo);
     console.log("Added feets");
     
-    //add neck
+    //add neck to the body
     neckMat = new LambertMaterial ({color:0xCCCCCC});
     neckGeo=new CubeGeometry(0.3,0.7,0.3);
     neck=new gameObject(neckGeo, neckMat, 0, 1.7, 0);
     body.add(neck);
     
-    //add head
+    //add head to the body
     headMat = new LambertMaterial ({color:0xFFFFCC});
     headGeo=new CubeGeometry(1,1, 1);
     head=new gameObject(headGeo, headMat, 0, 2.3, 0);
       body.add(head);
       
-    //add arms
+    //add arms to the body
     handMat = new LambertMaterial ({color:0x9966CC});
     handGeo=new CubeGeometry(2.5, 0.5, 0.5);
     handOne=new gameObject( handGeo,  handMat, 1.5, 0.75, 0.1);
     body.add(handOne);
-    
     handTwo=new gameObject(handGeo,  handMat, -1.5, 0.75, 0.1);
-   body.add(handTwo);
+    body.add(handTwo);
     console.log("Added arems");
      
     // Add an AmbientLight to the scene
@@ -144,9 +143,11 @@ function init() {
 	
     // Add a SpotLight to the scene
     spotLight = new SpotLight(0xffffff);
-    spotLight.position.set(5.6, 23.1, 5.4);
-    spotLight.rotation.set(-0.8, 42.7, 19.5);
+    spotLight.position.set(-40, 60, -20);
+    //spotLight.position.set(200, 200, 5);
+    //spotLight.rotation.set(-0.8, 42.7, 19.5);
     spotLight.castShadow = true;
+    spotLight.shadowDarkness=1;
     scene.add(spotLight);
     console.log("Added a SpotLight Light to Scene");
     
@@ -171,7 +172,7 @@ function onResize(): void {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
-
+//setup rotation controls
 function addControl(controlObject: Control): void {
   gui.add(controlObject, 'rotationSpeedX',-0.5,0.5);
  gui.add(controlObject, 'rotationSpeedY',-0.5,0.5);

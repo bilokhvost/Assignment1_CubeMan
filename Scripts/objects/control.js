@@ -1,3 +1,4 @@
+//Kateryna Bilokhvost
 /// <reference path="../../typings/tsd.d.ts"/>
 var objects;
 (function (objects) {
