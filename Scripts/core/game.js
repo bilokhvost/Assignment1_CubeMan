@@ -128,7 +128,7 @@ function init() {
     console.log("Added a SpotLight Light to Scene");
     // add controls
     gui = new GUI();
-    control = new Control(0, 0, 0);
+    control = new Control(0);
     addControl(control);
     // Add framerate stats
     addStatsObject();
@@ -147,6 +147,7 @@ function addControl(controlObject) {
     gui.add(controlObject, 'rotationSpeedX', -0.5, 0.5);
     gui.add(controlObject, 'rotationSpeedY', -0.5, 0.5);
     gui.add(controlObject, 'rotationSpeedZ', -0.5, 0.5);
+    gui.add(controlObject, 'randomColour');
 }
 function addStatsObject() {
     stats = new Stats();
