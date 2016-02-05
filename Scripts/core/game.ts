@@ -69,19 +69,14 @@ var stats: Stats;
 var step: number = 0;
 var legGeo: CubeGeometry;
 var legMat:LambertMaterial;
-
 var feetGeo: CubeGeometry;
 var feetMat:LambertMaterial;
-
 var bodyGeo: CubeGeometry;
 var bodyMat:LambertMaterial;
-
 var neckGeo: CubeGeometry;
 var neckMat:LambertMaterial;
-
 var headGeo: CubeGeometry;
 var headMat:LambertMaterial;
-
 var handGeo: CubeGeometry;
 var handMat:LambertMaterial;
 
@@ -188,10 +183,10 @@ function onResize(): void {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
-//setup rotation controls
+//setup rotation and change color Bcontrols
 function addControl(controlObject: Control): void {
   gui.add(controlObject, 'rotationSpeedX',-0.5,0.5);
- gui.add(controlObject, 'rotationSpeedY',-0.5,0.5);
+  gui.add(controlObject, 'rotationSpeedY',-0.5,0.5);
   gui.add(controlObject, 'rotationSpeedZ',-0.5,0.5);
   gui.add(controlObject, 'randomColour');
 }

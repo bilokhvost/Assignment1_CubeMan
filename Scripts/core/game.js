@@ -158,7 +158,7 @@ function onResize() {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
-//setup rotation controls
+//setup rotation and change color Bcontrols
 function addControl(controlObject) {
     gui.add(controlObject, 'rotationSpeedX', -0.5, 0.5);
     gui.add(controlObject, 'rotationSpeedY', -0.5, 0.5);
